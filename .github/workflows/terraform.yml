@@ -24,17 +24,26 @@ jobs:
       - name: Terraform Format Check
         run: terraform fmt -check -recursive
 
-      - name: Terraform Init
+      - name: Initialize Dev
+        working-directory: environments/dev
         run: terraform init -backend=false
 
-      - name: Terraform Validate - Dev
+      - name: Validate Dev
         working-directory: environments/dev
         run: terraform validate
 
-      - name: Terraform Validate - Staging
+      - name: Initialize Staging
+        working-directory: environments/staging
+        run: terraform init -backend=false
+
+      - name: Validate Staging
         working-directory: environments/staging
         run: terraform validate
 
-      - name: Terraform Validate - Production
+      - name: Initialize Production
+        working-directory: environments/prod
+        run: terraform init -backend=false
+
+      - name: Validate Production
         working-directory: environments/prod
         run: terraform validate
