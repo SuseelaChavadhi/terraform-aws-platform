@@ -1,5 +1,6 @@
 data "aws_caller_identity" "current" {}
 
+#checkov:skip=CKV2_AWS_5:Security group is attached to the EKS cluster through the EKS module.
 resource "aws_security_group" "eks_cluster" {
   name        = "${var.cluster_name}-cluster-sg"
   description = "Security group for EKS cluster"
