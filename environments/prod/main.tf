@@ -60,7 +60,8 @@ module "eks" {
   cluster_role_arn = module.iam.eks_cluster_role_arn
   node_role_arn    = module.iam.eks_node_role_arn
 
-  encryption_key_arn = module.security.eks_encryption_key_arn
+  cluster_security_group_id = module.security.eks_cluster_security_group_id
+  encryption_key_arn        = module.security.eks_encryption_key_arn
 
   node_instance_types = ["t3.medium"]
 
