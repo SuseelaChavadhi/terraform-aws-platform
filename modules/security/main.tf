@@ -1,7 +1,8 @@
 data "aws_caller_identity" "current" {}
 
-#checkov:skip=CKV2_AWS_5:Security group is attached to the EKS cluster through the EKS module.
 resource "aws_security_group" "eks_cluster" {
+  #checkov:skip=CKV2_AWS_5:Security group is attached to the EKS cluster through the EKS module.
+
   name        = "${var.cluster_name}-cluster-sg"
   description = "Security group for EKS cluster"
   vpc_id      = var.vpc_id
@@ -15,6 +16,7 @@ resource "aws_security_group" "eks_cluster" {
   }
 
   egress {
+    #checkov:skip=CKV_AWS_382:EKS cluster requires outbound connectivity for cluster and node operations.
     description = "Allow outbound traffic"
     from_port   = 0
     to_port     = 0

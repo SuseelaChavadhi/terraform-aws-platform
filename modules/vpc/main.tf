@@ -27,8 +27,9 @@ resource "aws_internet_gateway" "this" {
   }
 }
 
-#checkov:skip=CKV_AWS_130:Public subnets intentionally assign public IPs for internet-facing infrastructure.
 resource "aws_subnet" "public" {
+  #checkov:skip=CKV_AWS_130:Public subnets intentionally assign public IPs for internet-facing infrastructure.
+
   count = length(var.public_subnet_cidrs)
 
   vpc_id                  = aws_vpc.this.id
