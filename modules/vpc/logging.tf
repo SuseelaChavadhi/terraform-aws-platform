@@ -1,6 +1,38 @@
+data "aws_caller_identity" "current" {}
+
+resource "aws_kms_key" "vpc_logs" {
+  description             = "KMS key for VPC Flow Logs"
+  deletion_window_in_days = 7
+  enable_key_rotation     = true
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+
+    Statement = [
+      {
+        Sid    = "EnableAccountPermissions"
+        Effect = "Allow"
+
+        Principal = {
+          AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        }
+
+        Action   = "kms:*"
+        Resource = "*"
+      }
+    ]
+  })
+
+  tags = {
+    Name      = "${var.name}-vpc-logs-kms"
+    ManagedBy = "Terraform"
+  }
+}
+
 resource "aws_cloudwatch_log_group" "vpc_flow_logs" {
   name              = "/aws/vpc/${var.name}/flow-logs"
-  retention_in_days = 30
+  retention_in_days = 365
+  kms_key_id        = aws_kms_key.vpc_logs.arn
 
   tags = {
     Name        = "${var.name}-vpc-flow-logs"
