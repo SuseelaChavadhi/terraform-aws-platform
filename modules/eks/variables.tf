@@ -63,3 +63,8 @@ variable "encryption_key_arn" {
   description = "KMS key ARN used to encrypt Kubernetes secrets"
   type        = string
 }
+
+variable "cluster_security_group_id" {
+  description = "Security group ID for the EKS cluster"
+  type        = string
+}
