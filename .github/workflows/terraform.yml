@@ -47,3 +47,10 @@ jobs:
       - name: Validate Production
         working-directory: environments/prod
         run: terraform validate
+        
+      - name: Terraform Security Scan
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: .
+          framework: terraform
+          soft_fail: true
